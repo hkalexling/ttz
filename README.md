@@ -1,17 +1,14 @@
 # TinyTZ
 
-TinyTZ (ttz) is a lightweight timezone library for C designed to be:
-
-- Tiny: The default library size is only ~300KB, with the ability to customize the amount of included timezone data.
-- Portable: It performs no heap allocations and has no external system library dependencies.
+TinyTZ (ttz) is a lightweight timezone library for C designed to be both **tiny** and **portalble**. It avoids heap allocations, has no external dependencies, and does not require system timezone data files. The default library size is approximately 300KB, with the flexibility to adjust the amount of included timezone data.
 
 ## Building
 
 To build the library, simply run `make`. You can customize the build by passing the following variables:
 
-`COUNTRY_COUNT`: Number of countries to include (default: 100).
-`MIN_YEAR`: The earliest year of timezone transition data to include (default: 1980).
-`MAX_YEAR`: The latest year of transition data to include (default: 2030).
+- `COUNTRY_COUNT`: Number of countries to include (default: 100).
+- `MIN_YEAR`: The earliest year of timezone transition data to include (default: 1980).
+- `MAX_YEAR`: The latest year of transition data to include (default: 2030).
 
 Example: `make COUNTRY_COUNT=50 MIN_YEAR=2000 MAX_YEAR=2020`
 
