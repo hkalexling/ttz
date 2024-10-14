@@ -9,6 +9,7 @@ MAX_YEAR ?= 2030
 SRC_GEN = src/countries.c src/zones.c
 SRC = $(SRC_GEN) src/ttz.c
 OBJ = $(SRC:src/%.c=$(BUILD_DIR)/%.o)
+WASM_OBJ = $(SRC:src/%.c=$(BUILD_DIR)/%.wasm.o)
 
 libs: $(BUILD_DIR)/libttz.so $(BUILD_DIR)/libttz.a
 
@@ -31,11 +32,18 @@ $(BUILD_DIR)/%.o: src/%.c
 	@mkdir -p $(BUILD_DIR)
 	cc -Os -Wall -fPIC -c $< -o $@
 
+$(BUILD_DIR)/%.wasm.o: src/%.c
+	@mkdir -p $(BUILD_DIR)
+	clang --target=wasm32 -Os -Wall -c $< -o $@
+
 $(BUILD_DIR)/libttz.so: $(OBJ)
 	cc $(OBJ) -shared -fPIC -o $@
 
 $(BUILD_DIR)/libttz.a: $(OBJ)
 	ar rcs $@ $(OBJ)
+
+$(BUILD_DIR)/libttz.wasm.a: $(WASM_OBJ)
+	llvm-ar rcs $@ $(WASM_OBJ)
 
 clean:
 	rm -rf resources/countries.csv $(SRC_GEN) $(BUILD_DIR)
